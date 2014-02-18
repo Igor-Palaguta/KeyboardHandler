@@ -3,27 +3,29 @@ KeyboardHandler
 
 Usage sample
 
--(void)viewWillAppear:(BOOL)animated_
-{
-   [ super viewWillAppear: animated_ ];
+    -(void)viewWillAppear:(BOOL)animated_
+    {
+       [ super viewWillAppear: animated_ ];
 
-   [ self kh_subscribeKeyboardNotifications ];
-}
+       [ self kh_subscribeKeyboardNotifications ];
+    }
 
--(void)viewWillDisappear:(BOOL)animated_
-{
-   [ super viewWillDisappear: animated_ ];
+    -(void)viewWillDisappear:(BOOL)animated_
+    {
+       [ super viewWillDisappear: animated_ ];
 
-   [ self kh_unsubscribeKeyboardNotifications ];
-}
+       [ self kh_unsubscribeKeyboardNotifications ];
+    }
 
--(UIScrollView*)kh_contentScrollView
-{
-   return self.scrollView;
-}
+    //kh_contentScrollView returns scroll view that manages content offset after keyboard appearance
+    -(UIScrollView*)kh_contentScrollView
+    {
+       return self.scrollView;
+    }
 
--(UIView*)kh_contentActiveView
-{
-   return self.loginButton;
-}
+    //kh_contentActiveView returns control that should be visible after keyboard appearance
+    -(UIView*)kh_contentActiveView
+    {
+       return self.loginButton;
+    }
 
