@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
     s.name         = "KeyboardHandler"
     s.version      = "0.1.0"
     s.summary      = "Manager for keyboard appear/disappear"
-    s.homepage     = "http://https://github.com/Igor-Palaguta/KeyboardHandler"
+    s.homepage     = "https://github.com/Igor-Palaguta/KeyboardHandler"
     s.license      = 'MIT'
     s.author       = { "Igor Palaguta" => "igor.palaguta@gmail.com" }
 
