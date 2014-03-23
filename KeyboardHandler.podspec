@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name         = "KeyboardHandler"
-    s.version      = "0.1.0"
+    s.version      = "0.1.1"
     s.summary      = "Manager for keyboard appear/disappear"
     s.homepage     = "https://github.com/Igor-Palaguta/KeyboardHandler"
     s.license      = 'MIT'

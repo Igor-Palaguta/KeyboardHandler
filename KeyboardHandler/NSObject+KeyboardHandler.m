@@ -47,12 +47,15 @@
 {
    NSTimeInterval duration_ = 0.0;
    UIViewAnimationOptions options_ = 0;
-   
+
    [ self kh_notification: notification_
-           getDuration: &duration_
-            getOptions: &options_ ];
-   
+              getDuration: &duration_
+               getOptions: &options_ ];
+
    [ self kh_willHideKeyboardWithDuration: duration_ options: options_ ];
+
+   [ self kh_removeInset ];
+   [ self kh_setKeyboardVisible: NO ];
 }
 
 -(void)kh_willShowKeyboardWithHeight:( CGFloat )height_
@@ -69,15 +72,15 @@
    CGFloat height_ = 0.f;
    
    [ self kh_notification: notification_
-               getRect: &keyboard_rect_
-             getHeight: &height_ ];
+                  getRect: &keyboard_rect_
+                getHeight: &height_ ];
    
    NSTimeInterval duration_ = 0.0;
    UIViewAnimationOptions options_ = 0;
    
    [ self kh_notification: notification_
-           getDuration: &duration_
-            getOptions: &options_ ];
+              getDuration: &duration_
+               getOptions: &options_ ];
    
    [ self kh_willShowKeyboardWithHeight: height_
                               inRect: keyboard_rect_
@@ -153,8 +156,7 @@
 
 -(void)kh_didHideKeyboard
 {
-   [ self kh_removeInset ];
-   [ self kh_setKeyboardVisible: NO ];
+   //do nothing
 }
 
 -(void)kh_didShowKeyboardWithHeight:( CGFloat )height_ inRect:( CGRect )keyboard_rect_
