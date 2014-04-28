@@ -165,22 +165,26 @@
    if ( scroll_view_ )
    {
       CGRect scroll_window_rect_ = [ scroll_view_ convertRect: scroll_view_.bounds toView: nil ];
-      
+
       CGRect keyboard_intersection_ = CGRectIntersection( keyboard_rect_, scroll_window_rect_ );
-      
+
       UIEdgeInsets content_inset_ = scroll_view_.contentInset;
-      
+
       content_inset_.bottom = UIInterfaceOrientationIsLandscape([ UIDevice currentDevice ].orientation)//landscape mode
       ? keyboard_intersection_.size.width
       : keyboard_intersection_.size.height;
-      
+
       scroll_view_.contentInset = content_inset_;
       scroll_view_.scrollIndicatorInsets = content_inset_;
-
+   
       CGRect content_rect_ = [ self.kh_contentActiveView convertRect: self.kh_contentActiveView.bounds
                                                               toView: self.kh_contentScrollView ];
 
-      [ scroll_view_ scrollRectToVisible: content_rect_ animated: YES ];
+      [ UIView animateWithDuration: 0.3f
+                        animations:
+       ^{
+         [ scroll_view_ scrollRectToVisible: content_rect_ animated: NO ];
+      } ];
    }
 }
 
