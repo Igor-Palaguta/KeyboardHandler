@@ -176,15 +176,20 @@
 
       scroll_view_.contentInset = content_inset_;
       scroll_view_.scrollIndicatorInsets = content_inset_;
-   
-      CGRect content_rect_ = [ self.kh_contentActiveView convertRect: self.kh_contentActiveView.bounds
-                                                              toView: self.kh_contentScrollView ];
 
-      [ UIView animateWithDuration: 0.3f
-                        animations:
-       ^{
-         [ scroll_view_ scrollRectToVisible: content_rect_ animated: NO ];
-      } ];
+      UIView* active_view_ = self.kh_contentActiveView;
+      if ( active_view_ )
+      {
+         CGRect content_rect_ = [ active_view_ convertRect: active_view_.bounds
+                                                    toView: scroll_view_ ];
+
+         [ UIView animateWithDuration: 0.3f
+                           animations:
+          ^{
+            [ scroll_view_ scrollRectToVisible: content_rect_
+                                      animated: NO ];
+         } ];
+      }
    }
 }
 
