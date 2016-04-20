@@ -4,13 +4,20 @@
 
 @implementation NSObject (KeyboardHandler)
 
--(void)kh_notification:( NSNotification* )notification_
+-(BOOL)kh_notification:( NSNotification* )notification_
                getRect:( CGRect* )keyboard_rect_
              getHeight:( CGFloat* )height_ __attribute__((nonnull))
 {
-   NSValue* bounds_ = [ [ notification_ userInfo ] objectForKey: UIKeyboardFrameEndUserInfoKey ];
-   *keyboard_rect_ = [ bounds_ CGRectValue ];
+   NSValue* end_frame_ = [ [ notification_ userInfo ] objectForKey: UIKeyboardFrameEndUserInfoKey ];
+   NSValue* begin_frame_ = [ [ notification_ userInfo ] objectForKey: UIKeyboardFrameBeginUserInfoKey ];
+   if ( CGRectEqualToRect(end_frame_.CGRectValue, begin_frame_.CGRectValue) )
+   {
+      return NO;
+   }
+
+   *keyboard_rect_ = [ end_frame_ CGRectValue ];
    *height_ = fmin( keyboard_rect_->size.height, keyboard_rect_->size.width );
+   return YES;
 }
 
 -(void)kh_notification:( NSNotification* )notification_
@@ -28,10 +35,15 @@
 {
    CGRect keyboard_rect_ = CGRectZero;
    CGFloat height_ = 0.f;
-   
-   [ self kh_notification: notification_
-               getRect: &keyboard_rect_
-             getHeight: &height_ ];
+
+   BOOL did_change_rect_ = [ self kh_notification: notification_
+                                          getRect: &keyboard_rect_
+                                        getHeight: &height_ ];
+
+   if ( !did_change_rect_ )
+   {
+      return;
+   }
    
    [ self kh_didShowKeyboardWithHeight: height_ inRect: keyboard_rect_ ];
    [ self kh_setKeyboardVisible: YES ];
@@ -45,6 +57,17 @@
 
 -(void)kh_willHideKeyboardWithNotification:( NSNotification* )notification_
 {
+   CGRect keyboard_rect_ = CGRectZero;
+   CGFloat height_ = 0.f;
+   BOOL did_change_rect_ = [ self kh_notification: notification_
+                                          getRect: &keyboard_rect_
+                                        getHeight: &height_ ];
+
+   if ( !did_change_rect_ )
+   {
+      return;
+   }
+
    NSTimeInterval duration_ = 0.0;
    UIViewAnimationOptions options_ = 0;
 
@@ -70,10 +93,15 @@
 {
    CGRect keyboard_rect_ = CGRectZero;
    CGFloat height_ = 0.f;
-   
-   [ self kh_notification: notification_
-                  getRect: &keyboard_rect_
-                getHeight: &height_ ];
+
+   BOOL did_change_rect_ = [ self kh_notification: notification_
+                                          getRect: &keyboard_rect_
+                                        getHeight: &height_ ];
+
+   if ( !did_change_rect_ )
+   {
+      return;
+   }
    
    NSTimeInterval duration_ = 0.0;
    UIViewAnimationOptions options_ = 0;
@@ -170,7 +198,7 @@
 
       UIEdgeInsets content_inset_ = scroll_view_.contentInset;
 
-      content_inset_.bottom = UIInterfaceOrientationIsLandscape([ UIDevice currentDevice ].orientation)//landscape mode
+      content_inset_.bottom = UIDeviceOrientationIsLandscape([ UIDevice currentDevice ].orientation)//landscape mode
       ? keyboard_intersection_.size.width
       : keyboard_intersection_.size.height;
 
