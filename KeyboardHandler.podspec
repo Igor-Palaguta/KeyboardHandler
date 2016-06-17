@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
     s.requires_arc = true
 
     s.header_mappings_dir = 'KeyboardHandler'
-    s.source = { :git => 'https://github.com/typhoon-framework/Typhoon.git'}
+    s.source = { :git => 'https://github.com/Igor-Palaguta/KeyboardHandler.git'}
 
     s.source_files = 'KeyboardHandler/*.{h,m}'
 end
